@@ -1,0 +1,53 @@
+.container {
+    display: flex;
+   
+  }
+
+  .mapcontainer{
+      flex-grow: 2;
+  }
+  
+  .map {
+
+    height: 400px;
+    background-color: #ccc;
+  }
+  
+  .data {
+ 
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  
+  .data table {
+    width: 500px;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+  
+ .data th,
+  .data td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+  }
+  
+ .data th:first-child,
+  .data td:first-child {
+    text-align: left;
+  }
+  
+  .data th:last-child,
+  .data td:last-child {
+    border-right: none;
+  }
+  
+  .chart {
+    flex: 1 0 50%;
+    height: 300px;
+    margin: auto;
+    background-color: #ccc;
+  }
+  

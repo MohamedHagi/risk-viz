@@ -1,5 +1,6 @@
 export const intialState = {
 	data: [],
+	view: 'map',
 };
 
 const DataReducer = (state, action) => {
@@ -7,10 +8,14 @@ const DataReducer = (state, action) => {
 
 	switch (type) {
 		case 'FILTER_BY_YEAR':
-			console.log('FILTER_BY_YEAR', payload);
 			return {
 				...state,
 				data: payload.data,
+			};
+		case 'UPDATE_VIEW':
+			return {
+				...state,
+				view: payload.view,
 			};
 		default:
 			throw new Error(`No case for type ${type}`);

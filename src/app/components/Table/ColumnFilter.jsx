@@ -13,26 +13,19 @@ export function ColumnFilter({ column: { filterValue, preFilteredRows, setFilter
 }
 
 // a dropdown list filter
-export function DropdownFilter({ column: { filterValue, setFilter, preFilteredRows, id } }) {
-	// Calculate the options for filtering
+export function DropdownFilter({ column: { filterValue, setFilter, preFilteredRows } }) {
+	//extracting the unique risk factors
 	// using the preFilteredRows
 	const options = React.useMemo(() => {
 		const options = new Set();
 		preFilteredRows.forEach((row) => {
-			options.add(row.values[id]);
-		});
-		return [...options.values()];
-	}, [id, preFilteredRows]);
-
-	const filterSelection = React.useMemo(() => {
-		const filterSelection = new Set();
-		options.map((option) => {
-			Object.keys(option).map((key) => {
-				filterSelection.add(key);
+			let rowArray = row.values.risks.split(',');
+			rowArray.forEach((risk) => {
+				options.add(risk);
 			});
 		});
-		return [...filterSelection.values()];
-	}, []);
+		return [...options.values()];
+	}, [preFilteredRows]);
 
 	// Render a multi-select box
 	return (
@@ -43,7 +36,7 @@ export function DropdownFilter({ column: { filterValue, setFilter, preFilteredRo
 			}}
 		>
 			<option value="">All</option>
-			{filterSelection.map((option, i) => (
+			{options.map((option, i) => (
 				<option key={i} value={option}>
 					{option}
 				</option>

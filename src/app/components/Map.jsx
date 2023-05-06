@@ -2,18 +2,13 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import Map, { Marker, Popup } from 'react-map-gl';
-import Select from 'react-select';
 import useData from '../DataContext';
 import styles from '../Home.module.css';
 
 export default function RiskMap() {
-	const { data, filterByYear } = useData();
-	const [year, setYear] = useState({ value: null, label: null });
+	const { data, view } = useData();
 
-	//calling filterByYear to filter the data by year
-	useEffect(() => {
-		filterByYear(year.value);
-	}, [year]);
+	console.log(data);
 
 	data.forEach((marker) => {
 		const risk = marker['Risk Rating'];
@@ -53,14 +48,6 @@ export default function RiskMap() {
 		}
 	});
 
-	const options = [
-		{ value: '2070', label: '2070' },
-		{ value: '2060', label: '2060' },
-		{ value: '2050', label: '2050' },
-		{ value: '2040', label: '2040' },
-		{ value: '2030', label: '2030' },
-	];
-
 	//setting intial start viewport, and handling the viewport
 	const [viewport, setViewPort] = useState({
 		latitude: 49.7715,
@@ -92,37 +79,36 @@ export default function RiskMap() {
 
 	return (
 		<div>
-			<div>
-				<p>Enter Year: </p>
-				<Select defaultValue={year} onChange={setYear} options={options} />
-			</div>
+			{view === 'map' ? (
+				<Map
+					{...viewport}
+					style={{ width: '90%', height: '100vh', margin: '0 auto' }}
+					className={styles.map}
+					mapStyle="mapbox://styles/mhagi9/clh8906rf01nz01p8hbofbeay"
+					mapboxAccessToken={
+						'pk.eyJ1IjoibWhhZ2k5IiwiYSI6ImNsaDg2azViczA1cWszcm1zeXI0ZGNrdW8ifQ.LFdeZ3LqJ8s0JojBpmMngg'
+					}
+					onMove={(evt) => setViewPort(evt.viewport)}
+				>
+					{markers}
 
-			<Map
-				{...viewport}
-				style={{ width: '100%', height: '100vh' }}
-				className={styles.map}
-				mapStyle="mapbox://styles/mhagi9/clh8906rf01nz01p8hbofbeay"
-				mapboxAccessToken={
-					'pk.eyJ1IjoibWhhZ2k5IiwiYSI6ImNsaDg2azViczA1cWszcm1zeXI0ZGNrdW8ifQ.LFdeZ3LqJ8s0JojBpmMngg'
-				}
-				onMove={(evt) => setViewPort(evt.viewport)}
-			>
-				{markers}
-
-				{popupInfo && (
-					<Popup
-						anchor="top"
-						longitude={Number(popupInfo['Long'])}
-						latitude={Number(popupInfo['Lat'])}
-						onClose={() => setPopupInfo(null)}
-					>
-						<div>
-							<p>Asset Name: {popupInfo['Asset Name']}</p>
-							<p>Business: {popupInfo['Business Category']}</p>
-						</div>
-					</Popup>
-				)}
-			</Map>
+					{popupInfo && (
+						<Popup
+							anchor="top"
+							longitude={Number(popupInfo['Long'])}
+							latitude={Number(popupInfo['Lat'])}
+							onClose={() => setPopupInfo(null)}
+						>
+							<div>
+								<p>Asset Name: {popupInfo['Asset Name']}</p>
+								<p>Business: {popupInfo['Business Category']}</p>
+							</div>
+						</Popup>
+					)}
+				</Map>
+			) : (
+				''
+			)}
 		</div>
 	);
 }

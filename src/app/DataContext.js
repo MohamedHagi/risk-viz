@@ -19,9 +19,20 @@ export const DataProvider = ({ children }) => {
 		});
 	};
 
+	const updateView = (view) => {
+		dispatch({
+			type: 'UPDATE_VIEW',
+			payload: {
+				view: view,
+			},
+		});
+	};
+
 	const value = {
 		data: state.data,
+		view: state.view,
 		filterByYear,
+		updateView,
 	};
 	return <DataContext.Provider value={value}>{children}</DataContext.Provider>;
 };

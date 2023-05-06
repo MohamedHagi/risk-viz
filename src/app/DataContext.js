@@ -1,11 +1,11 @@
 import { createContext, useReducer, useContext } from 'react';
-import dataReducer, { intialState } from './dataReducer';
+import DataReducer, { intialState } from './DataReducer';
 import { csv } from 'd3';
 
 const DataContext = createContext(intialState);
 
 export const DataProvider = ({ children }) => {
-	const [state, dispatch] = useReducer(dataReducer, intialState);
+	const [state, dispatch] = useReducer(DataReducer, intialState);
 
 	const filterByYear = (year) => {
 		csv('/data.csv').then((data) => {

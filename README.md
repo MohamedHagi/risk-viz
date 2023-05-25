@@ -1,4 +1,3 @@
-Here's a README based on the provided GitHub page for the "risk-viz" project by MohamedHagi:
 
 # Risk-Viz
 
